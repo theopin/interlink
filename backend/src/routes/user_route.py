@@ -2,6 +2,9 @@ from flask import Blueprint, jsonify, request
 from db.config import db_session
 from models.user import User
 from sqlalchemy.exc import SQLAlchemyError
+from  werkzeug.security import generate_password_hash
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
 
 user_blueprint = Blueprint('user', __name__, url_prefix='/users')
 
@@ -25,7 +28,7 @@ def create_user():
             return jsonify({"error": "User already exists"}), 400
         
         # Create and add new user
-        new_user = User(username=username, password=password, email=email)
+        new_user = User(username=username, password=generate_password_hash(password), email=email)
         db_session.add(new_user)
         db_session.commit()
         return jsonify({"message": "User created successfully"}), 201
@@ -35,6 +38,7 @@ def create_user():
 
 # Read a user by ID
 @user_blueprint.route('/<int:user_id>', methods=['GET'])
+@jwt_required()
 def get_user(user_id):
     try:
         user = db_session.query(User).filter_by(id=user_id).first()
@@ -45,26 +49,19 @@ def get_user(user_id):
     except SQLAlchemyError as e:
         return jsonify({"error": str(e)}), 500
 
-# Read all users
-@user_blueprint.route('/', methods=['GET'])
-def get_all_users():
-    try:
-        users = db_session.query(User).all()
-        user_list = [{"id": user.id, "username": user.username} for user in users]
-        return jsonify(user_list), 200
-    except SQLAlchemyError as e:
-        return jsonify({"error": str(e)}), 500
 
 # Update a user
 @user_blueprint.route('/<int:user_id>', methods=['PUT'])
+@jwt_required()
 def update_user(user_id):
     data = request.get_json()
     
-    if not data or 'username' not in data or 'password' not in data:
+    if not data or 'username' not in data or 'password' not in data or 'email' not in data:
         return jsonify({"error": "Invalid input"}), 400
     
     username = data['username']
     password = data['password']
+    email = data['email']
     
     try:
         user = db_session.query(User).filter_by(id=user_id).first()
@@ -73,6 +70,7 @@ def update_user(user_id):
         
         user.username = username
         user.password = password
+        user.email = email
         db_session.commit()
         return jsonify({"message": "User updated successfully"}), 200
     except SQLAlchemyError as e:
@@ -81,6 +79,7 @@ def update_user(user_id):
 
 # Delete a user
 @user_blueprint.route('/<int:user_id>', methods=['DELETE'])
+@jwt_required()
 def delete_user(user_id):
     try:
         user = db_session.query(User).filter_by(id=user_id).first()

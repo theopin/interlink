@@ -18,7 +18,7 @@ ENV FLASK_RUN_HOST=0.0.0.0
 EXPOSE 5000
 
 # Add a health check to the Docker container
-HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD curl --fail http://localhost:5000/health/status || exit 1
 
 # Command to run the Flask application

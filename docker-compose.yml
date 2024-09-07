@@ -1,15 +1,7 @@
 services:
-  backend:
-    build: ./backend
-    container_name: backend
-    ports:
-      - "5000:5000"
-    environment:
-      FLASK_ENV: development
-
   db:
     image: mysql:8.0
-    container_name: mysql-db
+    container_name: db
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: testdb
@@ -17,3 +9,11 @@ services:
       MYSQL_PASSWORD: password
     ports:
       - "3306:3306"
+
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db

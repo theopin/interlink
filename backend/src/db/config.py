@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker, declarative_base
 
-__engine__ = create_engine('mysql+pymysql://user:password@mysql-db:3306/testdb')
+__engine__ = create_engine('mysql+pymysql://user:password@db:3306/testdb')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=__engine__))

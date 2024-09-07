@@ -1,14 +1,19 @@
-from routes.health_route import health_blueprint
-from routes.auth_route import auth_blueprint
-from routes.user_route import user_blueprint
+import os
+import importlib
 
 def collate_routes(app):
-    blueprints = [
-        health_blueprint,
-        user_blueprint,
-        auth_blueprint,
-    ]
-    
-    # Iterate over the blueprints and register them
-    for blueprint in blueprints:
-        app.register_blueprint(blueprint)
+
+    for filename in os.listdir('routes'):
+        if filename.endswith('_route.py'):
+            # Get the module name without '.py'
+            module_name = filename[:-3]
+            print(module_name)
+            
+            # Dynamically import the module
+            module = importlib.import_module(f'routes.{module_name}')
+            
+            # Get the blueprint attribute (assumes each route module has a blueprint named '<module_name>_blueprint')
+            blueprint = getattr(module, f'{module_name[:-6]}_blueprint')
+            
+            # Register the blueprint with the Flask app
+            app.register_blueprint(blueprint)
