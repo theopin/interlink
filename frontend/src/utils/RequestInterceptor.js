@@ -67,8 +67,8 @@ async function setResponseInterceptor (instance) {
                     sessionStorage.removeItem('refreshToken')
 
                     // Redirect to login or perform any other action needed
-                    const navigate = useNavigate()
-                    navigate('/welcome')
+                    // const navigate = useNavigate()
+                    //navigate('/welcome')
                     return await Promise.reject(error)
                 }
 
@@ -84,8 +84,8 @@ async function setResponseInterceptor (instance) {
 
                 // Redirect to login or perform any other action needed
                 window.location.href = '/login'
-                const navigate = useNavigate()
-                navigate('/welcome')
+                //const navigate = useNavigate()
+                // navigate('/welcome')
                 return await Promise.reject(refreshError)
             }
             }

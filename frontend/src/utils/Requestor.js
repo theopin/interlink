@@ -6,8 +6,8 @@ const instance = axios.create({
   timeout: 5000
 })
 
-await RequestInterceptor.setRequestInterceptor(instance)
-await RequestInterceptor.setResponseInterceptor(instance)
+// await RequestInterceptor.setRequestInterceptor(instance)
+// await RequestInterceptor.setResponseInterceptor(instance)
 
 const postRequest = async (url, data = {}) => {
   return await instance.post(url, data)

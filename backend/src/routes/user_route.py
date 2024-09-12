@@ -10,7 +10,7 @@ user_blueprint = Blueprint('user', __name__, url_prefix='/users')
 
 
 # Create a user
-@user_blueprint.route('/', methods=['POST'])
+@user_blueprint.route('/signup', methods=['POST'])
 def create_user():
     data = request.get_json()
     
