@@ -1,4 +1,5 @@
-import { Requestor } from '../utils/Requestor';
+import { Requestor } from '../../utils/api/Requestor';
+import { ToastSetup } from '../../utils/toast/ToastSetup';
 
 const makeLoginRequest = async (e) => {
   e.preventDefault();
@@ -11,9 +12,11 @@ const makeLoginRequest = async (e) => {
       }
     )
     console.log("ok login")
+    ToastSetup.createSuccessToast("Logged in Successfully")
 
   } catch (loginError) {
     console.log("err in login", loginError);
+    ToastSetup.createErrorToast("Invalid Credentials. Please try again.")
   }
 };
 

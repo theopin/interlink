@@ -1,4 +1,4 @@
-import { Requestor } from '../utils/Requestor';
+import { Requestor } from '../../utils/api/Requestor';
 
 
 const makeSignupRequest = async (e) => {
