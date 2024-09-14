@@ -2,7 +2,7 @@ import { useRouteError } from "react-router-dom";
 import { Link } from 'react-router-dom'
 
 
-function InvalidRoute() {
+function ErrorPage() {
   const error = useRouteError();
   console.error(error);
 
@@ -19,4 +19,4 @@ function InvalidRoute() {
   );
 }
 
-export default InvalidRoute
+export default ErrorPage

@@ -32,7 +32,6 @@ function createToast (message, bgColor) {
   
     toast.appendChild(toastDFlex)
     toastContainer?.appendChild(toast)
-    console.log(toast)
 
     const bsToast = new bootstrap.Toast(toast)
     bsToast.show()
